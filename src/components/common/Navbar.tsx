@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { logout } from "../features/auth/authSlice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { logout } from "../../features/auth/authSlice";
 
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();

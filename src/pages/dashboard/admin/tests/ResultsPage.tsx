@@ -1,38 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { authApi, type User } from "../services/authApi";
+import { testApi } from "../../../../services/testApi";
+import type { Result } from "../../../../types";
 
-const AdminDashboard: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
+const ResultsPage: React.FC = () => {
+  const [results, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchResults = async () => {
       try {
         setLoading(true);
-        const response = await authApi.getAllUsers();
+        const response = await testApi.getAdminResults();
         if (response.success && response.data) {
-          setUsers(response.data);
+          setResults(response.data);
         } else {
           setError(response.message);
         }
       } catch (err: any) {
-        setError(err.response?.data?.message || "Failed to load users");
+        setError(err.response?.data?.message || "Failed to load results");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUsers();
+    fetchResults();
   }, []);
-
-  // Filter for Users only
-  const regularUsers = users.filter((u) => u.type === "USER");
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="text-text">Loading dashboard...</div>
+        <div className="text-text">Loading results...</div>
       </div>
     );
   }
@@ -50,45 +48,56 @@ const AdminDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-text">
-            Admin Dashboard
+            Test Results
           </h1>
-          <div className="text-sm text-text-secondary">Manage Students</div>
         </div>
 
-        {/* Users */}
         <div className="bg-white rounded-lg shadow-sm border border-border overflow-hidden">
-          <div className="px-4 sm:px-6 py-4 bg-gray-50 border-b border-border">
-            <h2 className="text-lg font-semibold text-text">
-              Students ({regularUsers.length})
-            </h2>
-          </div>
-          {regularUsers.length > 0 ? (
+          {results.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-border">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Name
+                      Test Title
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Email
+                      Student
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Role
+                      Score
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
+                      Percentage
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
+                      Submitted At
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
+                      Status
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-border">
-                  {regularUsers.map((user) => (
-                    <tr key={user.id}>
+                  {results.map((result) => (
+                    <tr key={result.attemptId}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text">
-                        {user.name}
+                        {result.testTitle}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        {user.email}
+                        {result.userName} ({result.userEmail})
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        {user.type}
+                        {result.score}/{result.maxScore}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                        {result.percentage.toFixed(2)}%
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                        {new Date(result.submittedAt).toLocaleString()}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                        {result.isValidTest ? "Valid" : "Invalid"}
                       </td>
                     </tr>
                   ))}
@@ -97,7 +106,7 @@ const AdminDashboard: React.FC = () => {
             </div>
           ) : (
             <div className="p-4 text-center text-text-secondary">
-              No Students found
+              No results yet
             </div>
           )}
         </div>
@@ -106,4 +115,4 @@ const AdminDashboard: React.FC = () => {
   );
 };
 
-export default AdminDashboard;
+export default ResultsPage;

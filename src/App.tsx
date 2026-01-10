@@ -8,12 +8,12 @@ import {
   createAdminAsync,
   createUserAsync,
 } from "./features/auth/authSlice";
-import Layout from "./components/Layout";
-import LoginForm from "./components/LoginForm";
-import GenericUserForm from "./components/GenericUserForm";
+import Layout from "./layouts/MainLayout";
+import LoginForm from "./pages/auth/LoginPage";
+import GenericUserForm from "./components/admin/users/UserForm";
 import { UserCreationMode } from "./types";
-import DashboardRouter from "./components/DashboardRouter";
-import LandingPage from "./components/LandingPage";
+import DashboardRouter from "./pages/dashboard/DashboardRouter";
+import LandingPage from "./pages/public/LandingPage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -60,7 +60,7 @@ function App() {
 
         {/* Protected Routes */}
         <Route
-          path="dashboard"
+          path="dashboard/*"
           element={
             isAuthenticated ? (
               <DashboardRouter />
