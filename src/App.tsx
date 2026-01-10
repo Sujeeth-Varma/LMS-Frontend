@@ -1,17 +1,20 @@
-import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { login, logout } from "./features/auth/authSlice";
+import { useEffect } from 'react';
+import Dashboard from './components/Dashboard';
+import { useAppDispatch } from './app/hooks';
+import { restoreSession } from './features/auth/authSlice';
 
 function App() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
+
+  // Restore session from localStorage on app mount
+  useEffect(() => {
+    dispatch(restoreSession());
+  }, [dispatch]);
+
   return (
-    <>
-      <div>
-        <p>User: {user ?? "Guest"}</p>
-        <button onClick={() => dispatch(login("John"))}>Login</button>
-        <button onClick={() => dispatch(logout())}>Logout</button>
-      </div>
-    </>
+    <div className="min-h-screen bg-background">
+      <Dashboard />
+    </div>
   );
 }
 
