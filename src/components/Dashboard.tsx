@@ -8,7 +8,7 @@ type ViewType = "login" | "dashboard";
 
 const Dashboard: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>("login");
-  const { isAuthenticated, userRole } = useAppSelector((state) => state.auth);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   // Auto-navigate to dashboard when logged in
   useEffect(() => {

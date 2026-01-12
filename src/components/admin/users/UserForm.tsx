@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { clearError } from "../features/auth/authSlice";
-import { UserCreationMode } from "../types";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { clearError } from "../../../features/auth/authSlice";
+import { UserCreationMode } from "../../../types";
+import type { UserCreationModeType } from "../../../types";
 
 interface GenericUserFormProps {
-  mode: UserCreationMode;
+  mode: UserCreationModeType;
   onSubmitAction: (data: any) => any;
   title: string;
   description: string;

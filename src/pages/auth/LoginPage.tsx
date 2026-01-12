@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { loginAsync } from "../features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { loginAsync } from "../../features/auth/authSlice";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");

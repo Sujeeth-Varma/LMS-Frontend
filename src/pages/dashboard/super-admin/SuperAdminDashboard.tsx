@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { authApi, type User } from "../services/authApi";
+import { authApi, type User } from "../../../services/authApi";
 
-const RootDashboard: React.FC = () => {
+const SuperAdminDashboard: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,8 +26,7 @@ const RootDashboard: React.FC = () => {
     fetchUsers();
   }, []);
 
-  const rootAdmins = users.filter((u) => u.type === "ROOTADMIN");
-  const superAdmins = users.filter((u) => u.type === "SUPERADMIN");
+  // Filter for Admins and Users only
   const admins = users.filter((u) => u.type === "ADMIN");
   const regularUsers = users.filter((u) => u.type === "USER");
 
@@ -52,105 +51,11 @@ const RootDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-text">
-            Root Dashboard
+            Super Admin Dashboard
           </h1>
           <div className="text-sm text-text-secondary">
-            Overview of all system users
+            Manage Administrators and Users
           </div>
-        </div>
-
-        {/* Root Admin */}
-        <div className="bg-white rounded-lg shadow-sm border border-border overflow-hidden">
-          <div className="px-4 sm:px-6 py-4 bg-gray-50 border-b border-border">
-            <h2 className="text-lg font-semibold text-text">
-              Root Administrators ({rootAdmins.length})
-            </h2>
-          </div>
-          {rootAdmins.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-border">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Email
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Role
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-border">
-                  {rootAdmins.map((user) => (
-                    <tr key={user.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text">
-                        {user.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        {user.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        {user.type}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="p-4 text-center text-text-secondary">
-              No Root Admins found
-            </div>
-          )}
-        </div>
-
-        {/* Super Admins */}
-        <div className="bg-white rounded-lg shadow-sm border border-border overflow-hidden">
-          <div className="px-4 sm:px-6 py-4 bg-gray-50 border-b border-border">
-            <h2 className="text-lg font-semibold text-text">
-              Super Administrators ({superAdmins.length})
-            </h2>
-          </div>
-          {superAdmins.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-border">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Email
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase">
-                      Role
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-border">
-                  {superAdmins.map((user) => (
-                    <tr key={user.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text">
-                        {user.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        {user.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        {user.type}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="p-4 text-center text-text-secondary">
-              No Super Admins found
-            </div>
-          )}
         </div>
 
         {/* Admins */}
@@ -251,4 +156,4 @@ const RootDashboard: React.FC = () => {
   );
 };
 
-export default RootDashboard;
+export default SuperAdminDashboard;

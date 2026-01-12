@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { authApi, type User } from '../services/authApi';
+import { authApi, type User } from '../../../services/authApi';
 
 const UserLists: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
